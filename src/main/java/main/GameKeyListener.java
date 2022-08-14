@@ -14,20 +14,16 @@ public class GameKeyListener implements java.awt.event.KeyListener {
     public void keyPressed(KeyEvent e) {
         Player player = Start.yourSelf;
         if (e.getKeyCode() == 39){
-            player.x = player.x + 1;
-            player.spriteName = "res/sprites/entities/player/player4.png";
+            player.go("right");
         }
         if (e.getKeyCode() == 37){
-            player.x = player.x - 1;
-            player.spriteName = "res/sprites/entities/player/player3.png";
+            player.go("left");
         }
         if (e.getKeyCode() == 40){
-            player.y = player.y + 1;
-            player.spriteName = "res/sprites/entities/player/player1.png";
+            player.go("down");
         }
         if (e.getKeyCode() == 38){
-            player.y = player.y - 1;
-            player.spriteName = "res/sprites/entities/player/player2.png";
+            player.go("up");
         }
     }
 

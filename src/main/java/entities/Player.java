@@ -1,10 +1,9 @@
 package entities;
 
 import blocks.Block;
-import main.Start;
-import main.Tools;
-import main.Var;
-import main.World;
+import main.*;
+
+import java.util.Objects;
 
 public class Player {
     public Integer id = 0;
@@ -29,6 +28,11 @@ public class Player {
             }
             index = index + 1;
         }
+
+    }
+    public void go(String direction){
+
+        Var.playerRequests.add(new PlayerRequest("go " + direction, this));
 
     }
 }
