@@ -4,6 +4,7 @@ import server.Start;
 import server.blocks.Block;
 import server.entities.Player;
 import server.socket.Client;
+import server.socket.Server;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -49,7 +50,7 @@ public class Tools {
                 p.spriteName = "res/sprites/entities/player/player5.png";
             }
             transfer_viewport(client);
-            transfer_player(client);
+            transfer_player_to_all(client);
         }
     }
     public static void transfer_viewport(Client client) throws IOException {
@@ -67,5 +68,19 @@ public class Tools {
         String msg = "updatePlayer!" + player.id + "!" + player.x + "!" + player.y + "!" + player.spriteName;
         client.sendMessage(msg);
     }
+    public static void transfer_player_to_all(Client client) throws IOException {
+        Player player = client.player;
+        String msg = "updatePlayer!" + player.id + "!" + player.x + "!" + player.y + "!" + player.spriteName;
+        Tools.sendMessageToAll(msg);
+    }
+    public static void sendMessageToAll(String msg) throws IOException {
+        Integer index = 0;
+        while (index < Server.clients.size()){
+            Server.clients.get(index).sendMessage(msg);
+            index = index + 1;
+        }
+
+    }
+
 
 }
