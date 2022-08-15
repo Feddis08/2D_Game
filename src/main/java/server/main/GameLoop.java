@@ -1,5 +1,6 @@
 package server.main;
 
+import server.Start;
 import server.socket.Client;
 import server.socket.Server;
 
@@ -16,7 +17,7 @@ public class GameLoop extends Thread {
                 e.printStackTrace();
             }
             try {
-                Thread.sleep(200);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -29,7 +30,7 @@ public class GameLoop extends Thread {
             PlayerRequest playerRequest = Var.playerRequests.get(index);
             String[] request = playerRequest.type.split(" ");
             if (Objects.equals(request[0], "go")){
-                //Tools.player_go(playerRequest.player, request[1]);
+                Tools.player_go(playerRequest.client, request[1]);
             }
             index = index + 1;
         }
@@ -40,14 +41,19 @@ public class GameLoop extends Thread {
             Integer index2 = 0;
             while (index2 < client.requests.size()) {
                 String request = client.requests.get(index2);
-                String[] command = request.split(" ");
+                String[] command = request.split("!");
+                Start.log("dad" + request + " " + index);
                 if (Objects.equals(command[0], "getViewport")) {
                     Tools.transfer_viewport(client);
+                }
+                if (Objects.equals(command[0], "request")) {
+                    PlayerRequest playerRequest = new PlayerRequest(command[1], client);
+                    Var.playerRequests.add(playerRequest);
                 }
                 index2 = index2 + 1;
             }
             client.requests.clear();
+            index = index + 1;
         }
-        index = index + 1;
         }
     }

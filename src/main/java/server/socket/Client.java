@@ -2,6 +2,7 @@ package server.socket;
 
 import server.Start;
 import server.entities.Player;
+import server.main.Tools;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -23,15 +24,19 @@ public class Client extends Thread{
         this.output = new DataOutputStream(clientSocket.getOutputStream());
         Player player = new Player(Math.toIntExact(Math.round(Math.random())));
         this.player = player;
-        sendMessage("connection!allowed");
+        sendMessage("connection!allowed!" + player.id);
+        Tools.transfer_player(this);
         th.start();
     }
     public void run(){
         while (true){
             try {
-                requests.add(listen());
+                String str = listen();
+                requests.add(str);
+                Start.log("ddd " + requests.size() + " " + str);
             } catch (IOException e) {
                 e.printStackTrace();
+                th.stop();
             }
         }
     }

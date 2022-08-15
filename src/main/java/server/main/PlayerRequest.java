@@ -1,12 +1,13 @@
 package server.main;
 
-import client.entities.Player;
+import server.entities.Player;
+import server.socket.Client;
 
 public class PlayerRequest {
     public String type = "";
-    public Player player;
-    public PlayerRequest(String type, Player player){
-        this.player = player;
+    public Client client;
+    public PlayerRequest(String type, Client client){
+        this.client = client;
         this.type = type;
     }
 }

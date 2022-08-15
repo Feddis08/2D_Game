@@ -2,6 +2,7 @@ package client.socket;
 
 import client.Start;
 import client.blocks.Block;
+import client.entities.Player;
 import client.main.Var;
 
 import java.io.*;
@@ -32,6 +33,7 @@ public class Client extends Thread{
                 if (Objects.equals(command[0], "connection")){
                     if (Objects.equals(Start.state, "connect to server")){
                         if (Objects.equals(command[1], "allowed")){
+                            Start.id = Integer.parseInt(command[2]);
                             Start.state = "start game";
                             sendMessage("getViewport");
                         }
@@ -48,8 +50,17 @@ public class Client extends Thread{
                     block.spriteName = command[5];
                     Var.blocksToRender.add(block);
                 }
+                if (Objects.equals(command[0], "updatePlayer")){
+                    Player player = new Player(Integer.parseInt(command[1]));
+                    player.x = Integer.parseInt(command[2]);
+                    player.y = Integer.parseInt(command[3]);
+                    player.spriteName = command[4];
+                    Var.remove_player(player.id);
+                    Var.players.add(player);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
+                th.stop();
             }
         }
     }

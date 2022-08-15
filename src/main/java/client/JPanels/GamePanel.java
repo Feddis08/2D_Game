@@ -17,6 +17,7 @@ public class GamePanel extends JPanel {
     public void paint(Graphics g){
         Graphics2D g2D = (Graphics2D) g;
         g2D.setPaint(Color.BLACK);
+        g2D.fillRect(0,0,1024,512);
         Boolean first_block_run = true;
         Integer blockX = 0;
         Integer blockY = 0;
@@ -49,13 +50,17 @@ public class GamePanel extends JPanel {
             index = index + 1;
         }
         index = 0;
-        while (index < Var.playersToRender.size()){
-            Player player = Var.playersToRender.get(index);
+        while (index < Var.players.size()){
+            Player player = Var.players.get(index);
             Image image = new ImageIcon(player.spriteName).getImage();
-            g2D.drawImage(image, 8 * 64, 4 * 64, 64,64, null);
+            if (player.id == Start.id){
+                g2D.drawImage(image, 8 * 64, 4 * 64, 64,64, null);
+            }else{
+
+            }
             index = index + 1;
         }
-        String str = Var.blocksToRender.size() + " x:" + Start.yourSelf.x + " y:" + Start.yourSelf.y;
+        String str = Var.blocksToRender.size() + " x:" + Var.get_player(Start.id).x + " y:" + Var.get_player(Start.id).y;
         g2D.drawString(str, 0, 10);
         repaint();
     }

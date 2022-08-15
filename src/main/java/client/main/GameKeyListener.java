@@ -18,20 +18,31 @@ public class GameKeyListener implements java.awt.event.KeyListener {
         Player player = Start.yourSelf;
         if (e.getKeyCode() == 39){
             try {
-                Start.client.sendMessage("right");
+                Start.client.sendMessage("request!go right");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            player.go("right");
         }
         if (e.getKeyCode() == 37){
-            player.go("left");
+            try {
+                Start.client.sendMessage("request!go left");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         if (e.getKeyCode() == 40){
-            player.go("down");
+            try {
+                Start.client.sendMessage("request!go down");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         if (e.getKeyCode() == 38){
-            player.go("up");
+            try {
+                Start.client.sendMessage("request!go up");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

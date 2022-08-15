@@ -19,7 +19,8 @@ public class Tools {
         }
         return result;
     }
-    public static void player_go(Player p, String direction){
+    public static void player_go(Client client, String direction) throws IOException {
+        Player p = client.player;
         Integer x = p.x;
         Integer y = p.y;
         String spriteName = "";
@@ -47,6 +48,8 @@ public class Tools {
             if (Objects.equals(block.type, "WATER_BLOCK")){
                 p.spriteName = "res/sprites/entities/player/player5.png";
             }
+            transfer_viewport(client);
+            transfer_player(client);
         }
     }
     public static void transfer_viewport(Client client) throws IOException {
@@ -58,6 +61,11 @@ public class Tools {
             client.sendMessage(msg);
             index = index + 1;
         }
+    }
+    public static void transfer_player(Client client) throws IOException {
+        Player player = client.player;
+        String msg = "updatePlayer!" + player.id + "!" + player.x + "!" + player.y + "!" + player.spriteName;
+        client.sendMessage(msg);
     }
 
 }
