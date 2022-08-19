@@ -15,15 +15,14 @@ public class Client extends Thread{
     public Thread th = this;
     public ArrayList<String> requests = new ArrayList<>();
     public Player player;
+    public Boolean inGame = false;
 
     public Client(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
         this.output = new PrintWriter(clientSocket.getOutputStream(), true);
         this.input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        Player player = new Player(Math.toIntExact(Math.round(Math.random())));
+        Player player = new Player(Server.clients.size());
         this.player = player;
-        sendMessage("connection!allowed!" + player.id);
-        Tools.transfer_player(this);
         th.start();
     }
     public void run(){

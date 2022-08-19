@@ -50,6 +50,15 @@ public class GameLoop extends Thread {
                     PlayerRequest playerRequest = new PlayerRequest(command[1], client);
                     Var.playerRequests.add(playerRequest);
                 }
+                if (Objects.equals(command[0], "join")) {
+                    client.sendMessage("connection!allowed!" + client.player.id + "!" + client.player.player_name);
+                    client.inGame = true;
+                    client.player.player_name = command[1];
+                    Tools.transfer_player(client);
+                }
+                if (Objects.equals(command[0], "getServerInfo")) {
+                    client.sendMessage("serverInfo!" + Start.status + "!" + Start.server_name + "!" + Server.clients.size());
+                }
                 index2 = index2 + 1;
             }
             client.requests.clear();

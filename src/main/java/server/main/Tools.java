@@ -83,12 +83,12 @@ public class Tools {
     }
     public static void transfer_player(Client client) throws IOException {
         Player player = client.player;
-        String msg = "updatePlayer!" + player.id + "!" + player.x + "!" + player.y + "!" + player.spriteName;
+        String msg = "updatePlayer!" + player.id + "!" + player.x + "!" + player.y + "!" + player.spriteName + "!" + player.player_name;
         client.sendMessage(msg);
     }
     public static void transfer_player_to_all(Client client) throws IOException {
         Player player = client.player;
-        String msg = "updatePlayer!" + player.id + "!" + player.x + "!" + player.y + "!" + player.spriteName;
+        String msg = "updatePlayer!" + player.id + "!" + player.x + "!" + player.y + "!" + player.spriteName + "!" + player.player_name;
         Tools.sendMessageToAll(msg);
     }
     public static void sendMessageToAll(String msg) throws IOException {

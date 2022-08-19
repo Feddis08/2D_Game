@@ -11,6 +11,7 @@ public class Player {
     public String spriteName = "res/sprites/entities/player/player1.png";
     public Integer x = 32;
     public Integer y = 32;
+    public String player_name = "";
     public Player(Integer id){
         this.id = id;
     }
@@ -30,10 +31,5 @@ public class Player {
             index = index + 1;
         }
         return blocks;
-    }
-    public void go(String direction){
-
-        //Var.playerRequests.add(new PlayerRequest("go " + direction, this));
-
     }
 }

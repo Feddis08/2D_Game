@@ -1,6 +1,7 @@
 package client;
 
 import client.JFrames.GameFrame;
+import client.JFrames.StartFrame;
 import client.entities.Player;
 import client.main.GameLoop;
 import client.main.Var;
@@ -21,10 +22,7 @@ public class Start {
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        world = new World();
-        client.startConnection("localhost", 3333);
-        loop_thread = new GameLoop();
-        loop_thread.start();
+        StartFrame.start();
     }
     public static void log(String log){
         System.out.println(log);

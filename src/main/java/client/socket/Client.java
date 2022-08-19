@@ -1,5 +1,6 @@
 package client.socket;
 
+import client.JFrames.StartFrame;
 import client.Start;
 import client.blocks.Block;
 import client.entities.Player;
@@ -23,7 +24,6 @@ public class Client extends Thread{
         output = new PrintWriter(clientSocket.getOutputStream(), true);
         input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-        sendMessage("Hallo");
         th.start();
     }
     public void run(){
@@ -43,6 +43,14 @@ public class Client extends Thread{
         while (index < requests.size()){
             String str = requests.get(index);
             String[] command = str.split("!");
+            Start.log(command[0]);
+            if (Objects.equals(command[0], "serverInfo")){
+                Start.log("ddd");
+                StartFrame.label1.setText("online: " + command[3]);
+                StartFrame.label2.setText("");
+                StartFrame.label3.setText("server name: " + command[2]);
+                StartFrame.label4.setText("status: " + command[1]);
+            }
             if (Objects.equals(command[0], "connection")){
                 System.out.println("igemdvl,f; " + str);
                 if (Objects.equals(Start.state, "connect to server")){
@@ -86,6 +94,7 @@ public class Client extends Thread{
                 player.x = Integer.parseInt(command[2]);
                 player.y = Integer.parseInt(command[3]);
                 player.spriteName = command[4];
+                player.player_name = command[5];
                 Var.remove_player(player.id);
                 Var.players.add(player);
                 Var.blocksToRender.clear();

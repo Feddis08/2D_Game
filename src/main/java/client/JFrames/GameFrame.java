@@ -9,7 +9,7 @@ public class GameFrame {
     public static void start(){
         panel = new GamePanel();
         JFrame frame = new JFrame();
-        frame.setTitle("J2D_Game");
+        frame.setTitle("J2D_Game - GAME");
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.addKeyListener(new GameKeyListener());
         frame.setResizable(false);

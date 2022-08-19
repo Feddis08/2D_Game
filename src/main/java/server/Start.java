@@ -9,6 +9,8 @@ import java.io.IOException;
 public class Start {
     public static World world;
     public static Thread loop_thread;
+    public static String status = "running";
+    public static String server_name = "test";
 
     public static void main(String[] args) throws IOException, InterruptedException {
         world = new World();

@@ -7,6 +7,7 @@ import client.main.Var;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class GamePanel extends JPanel {
     public GamePanel(){
@@ -56,11 +57,12 @@ public class GamePanel extends JPanel {
             Player you = Var.get_player(Start.id);
             Player player = Var.players.get(index);
             Image image = new ImageIcon(player.spriteName).getImage();
-            if (player.id == Start.id){
+            if (Objects.equals(player.id, Start.id)){
                 g2D.drawImage(image, 8 * 64, 4 * 64, 64,64, null);
             }else{
                 x = player.x - you.x + 8;
                 y = player.y - you.y + 4;
+                g2D.drawString(player.player_name, x * 64, y * 64);
                 g2D.drawImage(image, x * 64, y * 64, 64,64, null);
             }
             index = index + 1;

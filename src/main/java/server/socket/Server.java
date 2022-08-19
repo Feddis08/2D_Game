@@ -21,7 +21,7 @@ public class Server extends Thread{
     }
 
     public static void startServer() throws IOException {
-            serverSocket = new ServerSocket(3333);
+            serverSocket = new ServerSocket(5068);
 
         try {
             while (true){
