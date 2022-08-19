@@ -45,7 +45,7 @@ public class GamePanel extends JPanel {
             Integer x = Math.abs(blockX - block.x);
             Integer y = Math.abs(blockY - block.y);
 
-            Image image = new ImageIcon(block.spriteName).getImage();
+            Image image = new ImageIcon("res/sprites/blocks/" + block.spriteName).getImage();
             g2D.drawImage(image, x * 64, y * 64, 64,64, null);
             index = index + 1;
         }

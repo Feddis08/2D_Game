@@ -4,24 +4,22 @@ import server.Start;
 import server.entities.Player;
 import server.main.Tools;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class Client extends Thread{
     public Socket clientSocket;
-    public DataInputStream input;
-    public DataOutputStream output;
+    public BufferedReader input;
+    public PrintWriter output;
     public Thread th = this;
     public ArrayList<String> requests = new ArrayList<>();
     public Player player;
 
     public Client(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
-        this.input = new DataInputStream(clientSocket.getInputStream());
-        this.output = new DataOutputStream(clientSocket.getOutputStream());
+        this.output = new PrintWriter(clientSocket.getOutputStream(), true);
+        this.input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         Player player = new Player(Math.toIntExact(Math.round(Math.random())));
         this.player = player;
         sendMessage("connection!allowed!" + player.id);
@@ -41,8 +39,7 @@ public class Client extends Thread{
         }
     }
     public void sendMessage(String msg) throws IOException {
-        output.writeUTF(msg);
-        output.flush();
+        output.println(msg);
     }
     public void closeConnection() throws IOException {
         th.stop();
@@ -50,7 +47,7 @@ public class Client extends Thread{
     }
     public String listen() throws IOException {
         String str = null;
-            str = input.readUTF();
+            str = input.readLine();
             Start.log(clientSocket.getRemoteSocketAddress() + ": " + str);
         return str;
     }

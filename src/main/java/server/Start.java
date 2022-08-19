@@ -11,10 +11,10 @@ public class Start {
     public static Thread loop_thread;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        loop_thread = new GameLoop();
-        loop_thread.start();
         world = new World();
         Server.th.start();
+        loop_thread = new GameLoop();
+        loop_thread.start();
     }
 
     public static void log(String log){

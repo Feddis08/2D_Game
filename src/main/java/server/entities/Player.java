@@ -15,10 +15,10 @@ public class Player {
         this.id = id;
     }
     public ArrayList<Block> getViewport(World world){
-        Integer x1 = x - 8;
-        Integer y1 = y - 4;
-        Integer x2 = x + 8;
-        Integer y2 = y + 4;
+        Integer x1 = x - 10;
+        Integer y1 = y - 6;
+        Integer x2 = x + 10;
+        Integer y2 = y + 6;
 
         Integer index = 0;
         ArrayList<Block> blocks = new ArrayList<>();
