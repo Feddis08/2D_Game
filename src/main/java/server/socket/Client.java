@@ -7,6 +7,7 @@ import server.main.Tools;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Client extends Thread{
     public Socket clientSocket;
@@ -29,8 +30,19 @@ public class Client extends Thread{
         while (true){
             try {
                 String str = listen();
-                requests.add(str);
-                Start.log("ddd " + requests.size() + " " + str);
+                if (Objects.equals(str, null)){
+                    int index = 0;
+                    while (index < Server.clients.size()){
+                        if (Objects.equals(Server.clients.get(index).player.id, player.id)){
+                            Start.log(player.id + "zzz");
+                            Server.clients.remove(index);
+                        }
+                        index = index + 1;
+                    }
+                    closeConnection();
+                }else{
+                    requests.add(str);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 th.stop();
@@ -43,6 +55,8 @@ public class Client extends Thread{
     public void closeConnection() throws IOException {
         th.stop();
         clientSocket.close();
+        output.close();
+        input.close();
     }
     public String listen() throws IOException {
         String str = null;

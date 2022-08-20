@@ -15,7 +15,7 @@ public class GameKeyListener implements java.awt.event.KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Player player = Start.yourSelf;
+        Start.log(String.valueOf(e.getKeyCode()));
         if (e.getKeyCode() == 39){
             try {
                 Tools.player_go("right");
