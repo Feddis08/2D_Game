@@ -1,8 +1,6 @@
 package client.main;
 
-import client.Start;
-import client.entities.Player;
-import server.socket.Client;
+import client.StartClient;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -15,7 +13,7 @@ public class GameKeyListener implements java.awt.event.KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Start.log(String.valueOf(e.getKeyCode()));
+        StartClient.log(String.valueOf(e.getKeyCode()));
         if (e.getKeyCode() == 39){
             try {
                 Tools.player_go("right");

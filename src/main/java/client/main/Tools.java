@@ -1,11 +1,8 @@
 package client.main;
 
-import client.Start;
-import client.blocks.Block;
-import client.entities.Player;
+import client.StartClient;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class Tools {
 
@@ -21,8 +18,8 @@ public class Tools {
     public static void player_go(String direction) throws IOException {
 
 
-        Start.client.sendMessage("request!go " + direction);
-        Start.client.sendMessage("getViewport");
+        StartClient.client.sendMessage("request" + StartClient.client.spacing + "go " + direction);
+        StartClient.client.sendMessage("getViewport");
 
     }
 

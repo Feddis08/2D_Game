@@ -1,8 +1,7 @@
 package server.socket;
 
-import server.Start;
+import server.StartServer;
 import server.entities.Player;
-import server.main.Tools;
 
 import java.io.*;
 import java.net.Socket;
@@ -24,6 +23,7 @@ public class Client extends Thread{
         this.input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         Player player = new Player(Server.clients.size());
         this.player = player;
+        sendMessage("SPACING" + Server.spacing);
         th.start();
     }
     public void run(){
@@ -34,7 +34,7 @@ public class Client extends Thread{
                     int index = 0;
                     while (index < Server.clients.size()){
                         if (Objects.equals(Server.clients.get(index).player.id, player.id)){
-                            Start.log(player.id + "zzz");
+                            StartServer.log(player.id + "zzz");
                             Server.clients.remove(index);
                         }
                         index = index + 1;
@@ -61,7 +61,7 @@ public class Client extends Thread{
     public String listen() throws IOException {
         String str = null;
             str = input.readLine();
-            Start.log(clientSocket.getRemoteSocketAddress() + ": " + str);
+            StartServer.log(clientSocket.getRemoteSocketAddress() + ": " + str);
         return str;
     }
 }

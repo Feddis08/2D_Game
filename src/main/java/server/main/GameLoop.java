@@ -1,11 +1,12 @@
 package server.main;
 
-import server.Start;
+import server.StartServer;
 import server.socket.Client;
 import server.socket.Server;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.SplittableRandom;
 
 public class GameLoop extends Thread {
 
@@ -17,7 +18,7 @@ public class GameLoop extends Thread {
                 e.printStackTrace();
             }
             try {
-                Thread.sleep(100);
+                Thread.sleep(0);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -36,13 +37,14 @@ public class GameLoop extends Thread {
         }
         Var.playerRequests.clear();
         index = 0;
+        String spacing = Server.spacing;
         while (index < Server.clients.size()) {
             Client client = Server.clients.get(index);
             Integer index2 = 0;
             while (index2 < client.requests.size()) {
                 String request = client.requests.get(index2);
-                String[] command = request.split("!");
-                Start.log("dad" + request + " " + index);
+                String[] command = request.split(spacing);
+                StartServer.log("dad" + request + " " + index);
                 if (Objects.equals(command[0], "getViewport")) {
                     Tools.transfer_viewport(client);
                 }
@@ -51,13 +53,14 @@ public class GameLoop extends Thread {
                     Var.playerRequests.add(playerRequest);
                 }
                 if (Objects.equals(command[0], "join")) {
-                    client.sendMessage("connection!allowed!" + client.player.id + "!" + client.player.player_name);
+                    System.out.println(client.player.player_name + "aaa");
+                    client.sendMessage("connection"+ spacing +"allowed" + spacing + client.player.id + spacing + client.player.player_name);
                     client.inGame = true;
                     client.player.player_name = command[1];
                     Tools.transfer_player(client);
                 }
                 if (Objects.equals(command[0], "getServerInfo")) {
-                    client.sendMessage("serverInfo!" + Start.status + "!" + Start.server_name + "!" + Server.clients.size());
+                    client.sendMessage("serverInfo" + spacing + StartServer.status + spacing + StartServer.server_name + spacing + Server.clients.size());
                 }
                 index2 = index2 + 1;
             }

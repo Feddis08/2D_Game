@@ -1,7 +1,7 @@
 package client.main;
 
 import client.JFrames.GameFrame;
-import client.Start;
+import client.StartClient;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -26,7 +26,7 @@ public class GameLoop extends Thread {
     }
 
     public static void loop() throws IOException {
-        Start.client.parse_request();
+        StartClient.client.parse_request();
         Integer index = 0;
         while (index < Var.playerRequests.size()){
             PlayerRequest playerRequest = Var.playerRequests.get(index);
@@ -38,7 +38,7 @@ public class GameLoop extends Thread {
         }
         Var.playerRequests.clear();
 
-        if (Objects.equals(Start.state, "start gameFrame")){
+        if (Objects.equals(StartClient.state, "start gameFrame")){
             if (!(gameFrameOn))
                 GameFrame.start();
             gameFrameOn = true;

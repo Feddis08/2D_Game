@@ -6,7 +6,7 @@ import server.socket.Server;
 
 import java.io.IOException;
 
-public class Start {
+public class StartServer {
     public static World world;
     public static Thread loop_thread;
     public static String status = "running";

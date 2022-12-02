@@ -1,8 +1,6 @@
 package client.JFrames;
 
-import client.JPanels.GamePanel;
-import client.Start;
-import client.main.GameKeyListener;
+import client.StartClient;
 import client.main.GameLoop;
 import client.main.World;
 
@@ -95,13 +93,13 @@ public class StartFrame extends Canvas{
             public void actionPerformed(ActionEvent e) {
                 if (!(b1_on)){
                     b1_on = true;
-                    Start.log("b1");
+                    StartClient.log("b1");
                     try {
                         String[] str = tfServerName.getText().split(":");
-                        Start.loop_thread = new GameLoop();
-                        Start.loop_thread.start();
-                        Start.client.startConnection(str[0], Integer.parseInt(str[1]));
-                        Start.client.sendMessage("getServerInfo");
+                        StartClient.loop_thread = new GameLoop();
+                        StartClient.loop_thread.start();
+                        StartClient.client.startConnection(str[0], Integer.parseInt(str[1]));
+                        StartClient.client.sendMessage("getServerInfo");
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     } catch (InterruptedException ex) {
@@ -114,10 +112,10 @@ public class StartFrame extends Canvas{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (b1_on) {
-                    Start.log("b2");
-                    Start.world = new World();
+                    StartClient.log("b2");
+                    StartClient.world = new World();
                     try {
-                        Start.client.sendMessage("join!" + tfName.getText());
+                        StartClient.client.sendMessage("join" + StartClient.client.spacing + tfName.getText());
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }

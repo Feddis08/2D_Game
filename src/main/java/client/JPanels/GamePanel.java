@@ -2,7 +2,7 @@ package client.JPanels;
 
 import client.blocks.Block;
 import client.entities.Player;
-import client.Start;
+import client.StartClient;
 import client.main.Var;
 
 import javax.swing.*;
@@ -54,10 +54,10 @@ public class GamePanel extends JPanel {
         while (index < Var.players.size()){
             Integer x = 0;
             Integer y = 0;
-            Player you = Var.get_player(Start.id);
+            Player you = Var.get_player(StartClient.id);
             Player player = Var.players.get(index);
             Image image = new ImageIcon(player.spriteName).getImage();
-            if (Objects.equals(player.id, Start.id)){
+            if (Objects.equals(player.id, StartClient.id)){
                 g2D.drawImage(image, 8 * 64, 4 * 64, 64,64, null);
             }else{
                 x = player.x - you.x + 8;
@@ -67,7 +67,7 @@ public class GamePanel extends JPanel {
             }
             index = index + 1;
         }
-        String str = Var.blocksToRender.size() + " x:" + Var.get_player(Start.id).x + " y:" + Var.get_player(Start.id).y;
+        String str = Var.blocksToRender.size() + " x:" + Var.get_player(StartClient.id).x + " y:" + Var.get_player(StartClient.id).y;
         g2D.drawString(str, 0, 10);
         repaint();
     }

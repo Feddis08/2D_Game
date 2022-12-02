@@ -1,16 +1,13 @@
 package client;
 
-import client.JFrames.GameFrame;
 import client.JFrames.StartFrame;
 import client.entities.Player;
-import client.main.GameLoop;
-import client.main.Var;
 import client.main.World;
 import client.socket.Client;
 
 import java.io.IOException;
 
-public class Start {
+public class StartClient {
     public static String text = "ddd";
 
     public static String state = "connect to server";

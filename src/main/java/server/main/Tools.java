@@ -1,13 +1,12 @@
 package server.main;
 
-import server.Start;
+import server.StartServer;
 import server.blocks.Block;
 import server.entities.Player;
 import server.socket.Client;
 import server.socket.Server;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Tools {
@@ -44,7 +43,7 @@ public class Tools {
                     y = p.y - 1;
                     spriteName = "res/sprites/entities/player/player2.png";
                 }
-                Block block = Start.world.get_block(x, y);
+                Block block = StartServer.world.get_block(x, y);
                 if (!(block == null)){
                     p.x = x;
                     p.y = y;
@@ -52,7 +51,7 @@ public class Tools {
                     if (Objects.equals(block.type, "WATER_BLOCK")){
                         p.spriteName = "res/sprites/entities/player/player5.png";
                     }
-                    Thread.sleep(500);
+                    Thread.sleep(0);
                     transfer_player_to_all(client);
                 }
             } catch (IOException | InterruptedException e) {
@@ -66,14 +65,14 @@ public class Tools {
              try {
                  client.sendMessage("clearBlocksToRender");
                  Integer index = 0;
-                 String str = "sendViewport!";
-                 while (index < client.player.getViewport(Start.world).size()){
-                     Block block = client.player.getViewport(Start.world).get(index);
-                     String msg = "#" + block.id + "!" + block.type + "!" + block.x + "!" + block.y + "!" + block.spriteName;
+                 String str = "sendViewport" + Server.spacing;
+                 while (index < client.player.getViewport(StartServer.world).size()){
+                     Block block = client.player.getViewport(StartServer.world).get(index);
+                     String msg = "#" + block.id + Server.spacing + block.type + Server.spacing + block.x + Server.spacing + block.y + Server.spacing + block.spriteName;
                      str = str + msg;
                      index = index + 1;
                  }
-                 Start.log(str);
+                 StartServer.log(str);
                  client.sendMessage(str);
              } catch (IOException e) {
                  e.printStackTrace();
@@ -83,12 +82,12 @@ public class Tools {
     }
     public static void transfer_player(Client client) throws IOException {
         Player player = client.player;
-        String msg = "updatePlayer!" + player.id + "!" + player.x + "!" + player.y + "!" + player.spriteName + "!" + player.player_name;
+        String msg = "updatePlayer" + Server.spacing + player.id + Server.spacing + player.x + Server.spacing + player.y + Server.spacing + player.spriteName + Server.spacing + player.player_name;
         client.sendMessage(msg);
     }
     public static void transfer_player_to_all(Client client) throws IOException {
         Player player = client.player;
-        String msg = "updatePlayer!" + player.id + "!" + player.x + "!" + player.y + "!" + player.spriteName + "!" + player.player_name;
+        String msg = "updatePlayer" + Server.spacing + player.id + Server.spacing + player.x + Server.spacing + player.y + Server.spacing + player.spriteName + Server.spacing + player.player_name;
         Tools.sendMessageToAll(msg);
     }
     public static void sendMessageToAll(String msg) throws IOException {
