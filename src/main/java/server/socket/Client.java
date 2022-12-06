@@ -16,6 +16,8 @@ public class Client extends Thread{
     public ArrayList<String> requests = new ArrayList<>();
     public Player player;
     public Boolean inGame = false;
+    public Boolean is_main_client = true;
+    public Client viewport_transfer_client;
 
     public Client(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
@@ -60,8 +62,8 @@ public class Client extends Thread{
     }
     public String listen() throws IOException {
         String str = null;
-            str = input.readLine();
-            StartServer.log(clientSocket.getRemoteSocketAddress() + ": " + str);
+        str = input.readLine();
+        System.out.println(str  + player.id + " " + requests.size());
         return str;
     }
 }

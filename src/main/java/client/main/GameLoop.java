@@ -16,6 +16,8 @@ public class GameLoop extends Thread {
                 loop();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
             try {
                 Thread.sleep(200);
@@ -25,8 +27,9 @@ public class GameLoop extends Thread {
         }
     }
 
-    public static void loop() throws IOException {
+    public static void loop() throws IOException, InterruptedException {
         StartClient.client.parse_request();
+        StartClient.client2.parse_request();
         Integer index = 0;
         while (index < Var.playerRequests.size()){
             PlayerRequest playerRequest = Var.playerRequests.get(index);

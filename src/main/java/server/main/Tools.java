@@ -7,6 +7,7 @@ import server.socket.Client;
 import server.socket.Server;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Tools {
@@ -20,66 +21,62 @@ public class Tools {
         }
         return result;
     }
-    public static void player_go(Client client, String direction) throws IOException {
-        Thread newThread = new Thread(() -> {
-            try {
-                Player p = client.player;
-                Integer x = p.x;
-                Integer y = p.y;
-                String spriteName = "";
-                if (Objects.equals(direction, "right")){
-                    x = p.x + 1;
-                    spriteName = "res/sprites/entities/player/player4.png";
-                }
-                if (Objects.equals(direction, "left")){
-                    x = p.x - 1;
-                    spriteName = "res/sprites/entities/player/player3.png";
-                }
-                if (Objects.equals(direction, "down")){
-                    y = p.y + 1;
-                    spriteName = "res/sprites/entities/player/player1.png";
-                }
-                if (Objects.equals(direction, "up")){
-                    y = p.y - 1;
-                    spriteName = "res/sprites/entities/player/player2.png";
-                }
-                Block block = StartServer.world.get_block(x, y);
-                if (!(block == null)){
-                    p.x = x;
-                    p.y = y;
-                    p.spriteName = spriteName;
-                    if (Objects.equals(block.type, "WATER_BLOCK")){
-                        p.spriteName = "res/sprites/entities/player/player5.png";
-                    }
-                    Thread.sleep(0);
-                    transfer_player_to_all(client);
-                }
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+    public static void remove_client(Integer player_id) {
+        int index = 0;
+        Client client = null;
+        while (index < Server.clients.size()) {
+            System.out.println(Server.clients.get(index).player.id + " " + player_id + " " + Server.clients.size());
+            if (Objects.equals(Server.clients.get(index).player.id, player_id)){
+                System.out.println(Server.clients.get(0).player.player_name);
+                Server.clients.remove(index);
+                index --;
+                System.out.println(Server.clients.get(0).player.player_name);
             }
-        });
-        newThread.start();
+            index = index + 1;
+        }
+    }
+    public static Client get_client(Integer player_id) {
+        Integer index = 0;
+        Client client = null;
+        while (index < Server.clients.size()) {
+            if (Objects.equals(Server.clients.get(index).player.id, player_id)){
+                client = Server.clients.get(index);
+            }
+            index = index + 1;
+        }
+        return client;
     }
      public static void transfer_viewport(Client client) throws IOException {
-         Thread newThread = new Thread(() -> {
-             try {
-                 client.sendMessage("clearBlocksToRender");
+         Thread thread = new Thread("") {
+             public void run(){
+                 try {
+                     client.viewport_transfer_client.sendMessage("clearBlocksToRender");
+                 } catch (IOException e) {
+                     throw new RuntimeException(e);
+                 }
                  Integer index = 0;
                  String str = "sendViewport" + Server.spacing;
+                 System.out.println("2");
                  while (index < client.player.getViewport(StartServer.world).size()){
                      Block block = client.player.getViewport(StartServer.world).get(index);
                      String msg = "#" + block.id + Server.spacing + block.type + Server.spacing + block.x + Server.spacing + block.y + Server.spacing + block.spriteName;
                      str = str + msg;
                      index = index + 1;
                  }
-                 StartServer.log(str);
-                 client.sendMessage(str);
-             } catch (IOException e) {
-                 e.printStackTrace();
+                 System.out.println("3");
+                 System.out.println("run by: " + getName());
+                 try {
+                     client.viewport_transfer_client.sendMessage(str);
+                 } catch (IOException e) {
+                     throw new RuntimeException(e);
+                 }
              }
-         });
-         newThread.start();
-    }
+         };
+
+
+         thread.start();
+         System.out.println("4");
+     }
     public static void transfer_player(Client client) throws IOException {
         Player player = client.player;
         String msg = "updatePlayer" + Server.spacing + player.id + Server.spacing + player.x + Server.spacing + player.y + Server.spacing + player.spriteName + Server.spacing + player.player_name;

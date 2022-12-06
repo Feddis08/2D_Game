@@ -17,9 +17,8 @@ public class Tools {
     }
     public static void player_go(String direction) throws IOException {
 
-
-        StartClient.client.sendMessage("request" + StartClient.client.spacing + "go " + direction);
-        StartClient.client.sendMessage("getViewport");
+        StartClient.client.sendMessage("go" + StartClient.client.spacing + direction);
+        //StartClient.client.sendMessage("getViewport");
 
     }
 

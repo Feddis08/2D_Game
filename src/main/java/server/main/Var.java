@@ -7,5 +7,4 @@ import java.util.ArrayList;
 
 public class Var {
     public static ArrayList<Player> players = new ArrayList<>();
-    public static ArrayList<PlayerRequest> playerRequests = new ArrayList<>();
 }

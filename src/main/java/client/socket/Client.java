@@ -18,6 +18,8 @@ public class Client extends Thread{
     private ArrayList<String> requests = new ArrayList<>();
     private Thread th = this;
     public String spacing = "";
+    public Boolean is_main_client = true;
+    public String name = "main";
 
     public void startConnection(String ip, int port) throws IOException, InterruptedException {
         clientSocket = new Socket(ip, port);
@@ -36,7 +38,7 @@ public class Client extends Thread{
         }
     }
 
-    public void parse_request() throws IOException {
+    public void parse_request() throws IOException, InterruptedException {
 
         int index = 0;
         while (index < requests.size()){
@@ -54,12 +56,20 @@ public class Client extends Thread{
                 StartFrame.label4.setText("status: " + command[1]);
             }
             if (Objects.equals(command[0], "connection")){
-                System.out.println("igemdvl,f; " + str);
-                if (Objects.equals(StartClient.state, "connect to server")){
-                    if (Objects.equals(command[1], "allowed")){
+                if (Objects.equals(command[1], "allowed")){
+                    if (Objects.equals(name, "main")){
                         StartClient.id = Integer.parseInt(command[2]);
                         StartClient.state = "start game";
-                        sendMessage("getViewport");
+                        String[] str2 = StartFrame.tfServerName.getText().split(":");
+                        StartClient.client2 = new Client();
+                        StartClient.client2.is_main_client = false;
+                        StartClient.client2.name = "viewport";
+                        StartClient.client2.startConnection(str2[0], Integer.parseInt(str2[1]));
+                        StartClient.client2 .sendMessage("join as viewport" + spacing + StartClient.id);
+                        System.out.println("fesfksfksafkoaseoif " + name);
+                    }
+                    if (Objects.equals(name, "viewport")){
+                        sendMessage("go" + spacing + "up");
                     }
                 }
             }
@@ -120,7 +130,8 @@ public class Client extends Thread{
     }
     public String listen() throws IOException {
         String str = input.readLine();
-        StartClient.log(clientSocket.getRemoteSocketAddress() + ": " +  str);
+        System.out.println(str);
+        System.out.println("sdadsaasdadasda " + name);
         return str;
     }
 }
