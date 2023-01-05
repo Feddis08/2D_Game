@@ -57,8 +57,8 @@ public class Client extends Thread{
                 StartFrame.label3.setText("server name: " + command[2]);
                 StartFrame.label4.setText("status: " + command[1]);
                 StartClient.server_tick_start = Long.parseLong(command[4]);
-                sleep(Tools.get_tick_sleep(System.currentTimeMillis(), StartClient.server_tick_start, StartClient.max_tick_time));
                 StartClient.log(Tools.get_tick_sleep(System.currentTimeMillis(), StartClient.server_tick_start, StartClient.max_tick_time) + "ms");
+                sleep(Tools.get_tick_sleep(System.currentTimeMillis(), StartClient.server_tick_start, StartClient.max_tick_time));
                 GameLoop.do_tick = true;
             }
             if (Objects.equals(command[0], "connection")){

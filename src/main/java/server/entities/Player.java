@@ -14,7 +14,7 @@ public class Player {
     public static String spriteName = "res/sprites/entities/player/player1.png";
     public static Integer x = 32;
     public static Integer y = 32;
-    public Integer walk_speed = 25;
+    public Integer walk_speed = 10;
     public Integer dig_speed = 500;
     public Integer walk_cool_down = 0;
     public String move_direction = "null";

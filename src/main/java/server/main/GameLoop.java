@@ -10,7 +10,8 @@ import java.util.Objects;
 import java.util.SplittableRandom;
 
 public class GameLoop extends Thread {
-
+    public static Boolean sync_next_tick = false;
+    public static int tick_count = 0;
     public void run(){
         while (true){
             try {
@@ -29,6 +30,9 @@ public class GameLoop extends Thread {
             Client client = Server.clients.get(index);
             Integer index2 = 0;
             if (client.inGame) client.player.doTick();
+            if (tick_count % 20 == 0){
+                //Tools.send_tick_time_to_all(currentTime);
+            }
             while (index2 < client.requests.size()) {
                 System.out.println(client.requests.get(index2));
                 String request = client.requests.get(index2);
@@ -51,7 +55,6 @@ public class GameLoop extends Thread {
                     //}
                 }
                 if (Objects.equals(command[0], "go")) {
-                    Tools.send_tick_time_to_all(currentTime);
                     client.player.change_move_direction(command[1]);
                 }
                 if (Objects.equals(command[0], "get spacing")) {
@@ -72,10 +75,13 @@ public class GameLoop extends Thread {
             client.requests.clear();
             index = index + 1;
         }
+        tick_count += 1;
+        if (sync_next_tick) Tools.send_tick_time_to_all(currentTime); sync_next_tick = false;
         long currentTime2 = System.currentTimeMillis();
         int diff = (int) (currentTime2 - currentTime);
         if (diff >= StartServer.max_tick_time){
             StartServer.log("WARNING: Server took " + diff + "ms for one tick!");
+            sync_next_tick = true;
         }else{
             sleep(StartServer.max_tick_time - diff);
         }

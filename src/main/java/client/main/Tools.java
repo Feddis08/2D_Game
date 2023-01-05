@@ -30,8 +30,9 @@ public class Tools {
 
     public static int get_tick_sleep(long current_time, long server_time, int tick_rate){
         int diff = (int)  (current_time - server_time);
-        int next_tick_time = diff + tick_rate;
-        int sleep_time = next_tick_time - diff;
+        int ticks_passed = diff / tick_rate;
+        int next_tick_time = (int) server_time + (tick_rate * (ticks_passed + 1));
+        int sleep_time = next_tick_time - (int) current_time;
         return sleep_time;
     }
 
