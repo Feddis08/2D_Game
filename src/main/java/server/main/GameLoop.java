@@ -1,5 +1,6 @@
 package server.main;
 
+import client.StartClient;
 import server.StartServer;
 import server.socket.Client;
 import server.socket.Server;
@@ -14,18 +15,14 @@ public class GameLoop extends Thread {
         while (true){
             try {
                 loop();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public static void loop() throws IOException {
+    public static void loop() throws IOException, InterruptedException {
+        long currentTime = System.currentTimeMillis();
         Integer index = 0;
         String spacing = Server.spacing;
         while (index < Server.clients.size()) {
@@ -38,7 +35,7 @@ public class GameLoop extends Thread {
                 String[] command = request.split(spacing);
                 System.out.println(request + client.player.id);
                 if (Objects.equals(command[0], "getViewport")) {
-                    Tools.transfer_viewport(client);
+                    client.player.async_update_player_viewport_location_and_sprite();
                 }
                 if (Objects.equals(command[0], "join as viewport")) {
                     Client client1 = Tools.get_client(Integer.parseInt(command[1]));
@@ -54,8 +51,8 @@ public class GameLoop extends Thread {
                     //}
                 }
                 if (Objects.equals(command[0], "go")) {
+                    Tools.send_tick_time_to_all(currentTime);
                     client.player.change_move_direction(command[1]);
-                    System.out.println("adddada");
                 }
                 if (Objects.equals(command[0], "get spacing")) {
                     client.sendMessage("send spacing" + spacing);
@@ -65,14 +62,22 @@ public class GameLoop extends Thread {
                     client.inGame = true;
                     client.player.player_name = command[1];
                     Tools.transfer_player(client);
+                    Tools.send_tick_time_to_all(currentTime);
                 }
                 if (Objects.equals(command[0], "getServerInfo")) {
-                    client.sendMessage("serverInfo" + spacing + StartServer.status + spacing + StartServer.server_name + spacing + Server.clients.size());
+                    client.sendMessage("serverInfo" + spacing + StartServer.status + spacing + StartServer.server_name + spacing + Server.clients.size() + spacing + currentTime);
                 }
                 index2 = index2 + 1;
             }
             client.requests.clear();
             index = index + 1;
+        }
+        long currentTime2 = System.currentTimeMillis();
+        int diff = (int) (currentTime2 - currentTime);
+        if (diff >= StartServer.max_tick_time){
+            StartServer.log("WARNING: Server took " + diff + "ms for one tick!");
+        }else{
+            sleep(StartServer.max_tick_time - diff);
         }
         }
     }

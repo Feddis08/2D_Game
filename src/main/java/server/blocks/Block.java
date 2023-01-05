@@ -6,8 +6,11 @@ public class Block {
     public String type = "";
     public Integer id = 0;
     public String spriteName = "";
+    public Integer strength = 1000;
+    public Integer health = strength;
 
     public Block(Integer id){
         this.id = id;
     }
+
 }

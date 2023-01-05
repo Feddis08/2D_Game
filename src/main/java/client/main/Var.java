@@ -9,6 +9,7 @@ import java.util.Objects;
 public class Var {
     public static ArrayList<Block> blocksToRender = new ArrayList<>();
 
+    public static Boolean waiting_for_view_port = false;
     public static ArrayList<Player> players = new ArrayList<>();
     public static ArrayList<PlayerRequest> playerRequests = new ArrayList<>();
 

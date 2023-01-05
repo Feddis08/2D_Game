@@ -4,6 +4,8 @@ import client.JFrames.StartFrame;
 import client.StartClient;
 import client.blocks.Block;
 import client.entities.Player;
+import client.main.GameLoop;
+import client.main.Tools;
 import client.main.Var;
 
 import java.io.*;
@@ -54,6 +56,10 @@ public class Client extends Thread{
                 StartFrame.label2.setText("");
                 StartFrame.label3.setText("server name: " + command[2]);
                 StartFrame.label4.setText("status: " + command[1]);
+                StartClient.server_tick_start = Long.parseLong(command[4]);
+                sleep(Tools.get_tick_sleep(System.currentTimeMillis(), StartClient.server_tick_start, StartClient.max_tick_time));
+                StartClient.log(Tools.get_tick_sleep(System.currentTimeMillis(), StartClient.server_tick_start, StartClient.max_tick_time) + "ms");
+                GameLoop.do_tick = true;
             }
             if (Objects.equals(command[0], "connection")){
                 if (Objects.equals(command[1], "allowed")){
@@ -73,13 +79,16 @@ public class Client extends Thread{
                     }
                 }
             }
+            if (Objects.equals(command[0], "sync_tick_time")) {
+                StartClient.server_tick_start = Long.parseLong(command[1]);
+                GameLoop.sync = true;
+            }
             if (Objects.equals(command[0], "clearBlocksToRender")) {
                 Var.blocksToRender.clear();
                 Var.get_player(StartClient.id).getViewport(StartClient.world);
             }
             if (Objects.equals(command[0], "sendViewport")){
                 Thread newThread = new Thread(() -> {
-                    StartClient.world.blocks.clear();
                     String[] blocksStrings = str.split("#");
                     int index2 = 0;
                     while (index2 < blocksStrings.length){
@@ -92,12 +101,14 @@ public class Client extends Thread{
                             block.x = Integer.parseInt(blockParams[2]);
                             block.y = Integer.parseInt(blockParams[3]);
                             block.spriteName = blockParams[4];
+                            StartClient.world.remove_block(block.x, block.y);
                             StartClient.world.blocks.add(block);
                         }
                         index2 = index2 + 1;
                     }
                     Var.blocksToRender.clear();
                     Var.get_player(StartClient.id).getViewport(StartClient.world);
+                    Var.waiting_for_view_port = false;
                 });
                 newThread.start();
             }
@@ -107,10 +118,10 @@ public class Client extends Thread{
                 player.y = Integer.parseInt(command[3]);
                 player.spriteName = command[4];
                 player.player_name = command[5];
+                player.walk_speed = Integer.parseInt(command[6]);
+                player.up_time = Integer.parseInt(command[7]);
                 Var.remove_player(player.id);
                 Var.players.add(player);
-                Var.blocksToRender.clear();
-                Var.get_player(StartClient.id).getViewport(StartClient.world);
                 StartClient.state = "start gameFrame";
             }
             requests.remove(index);
@@ -131,7 +142,6 @@ public class Client extends Thread{
     public String listen() throws IOException {
         String str = input.readLine();
         System.out.println(str);
-        System.out.println("sdadsaasdadasda " + name);
         return str;
     }
 }

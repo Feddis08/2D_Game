@@ -7,6 +7,7 @@ import client.main.Var;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Objects;
 
 public class GamePanel extends JPanel {
@@ -23,7 +24,15 @@ public class GamePanel extends JPanel {
         Integer blockX = 0;
         Integer blockY = 0;
         Integer index = 0;
-        //Start.yourSelf.getViewport(Start.world);
+        Player you = Var.get_player(StartClient.id);
+        if (Var.blocksToRender.size() < 150 && Var.waiting_for_view_port == false){
+            try {
+                Var.waiting_for_view_port = true;
+                StartClient.client.sendMessage("getViewport");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         while (index < Var.blocksToRender.size()){
             Block block = Var.blocksToRender.get(index);
             if (first_block_run){
@@ -54,7 +63,7 @@ public class GamePanel extends JPanel {
         while (index < Var.players.size()){
             Integer x = 0;
             Integer y = 0;
-            Player you = Var.get_player(StartClient.id);
+            you = Var.get_player(StartClient.id);
             Player player = Var.players.get(index);
             Image image = new ImageIcon(player.spriteName).getImage();
             if (Objects.equals(player.id, StartClient.id)){
@@ -67,7 +76,7 @@ public class GamePanel extends JPanel {
             }
             index = index + 1;
         }
-        String str = Var.blocksToRender.size() + " x:" + Var.get_player(StartClient.id).x + " y:" + Var.get_player(StartClient.id).y;
+        String str = Var.blocksToRender.size() + " x:" + Var.get_player(StartClient.id).x + " y:" + Var.get_player(StartClient.id).y + " walk_time:" + Var.get_player(StartClient.id).walk_cool_down;
         g2D.drawString(str, 0, 10);
         repaint();
     }

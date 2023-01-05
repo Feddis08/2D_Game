@@ -79,12 +79,16 @@ public class Tools {
      }
     public static void transfer_player(Client client) throws IOException {
         Player player = client.player;
-        String msg = "updatePlayer" + Server.spacing + player.id + Server.spacing + player.x + Server.spacing + player.y + Server.spacing + player.spriteName + Server.spacing + player.player_name;
+        String msg = "updatePlayer" + Server.spacing + player.id + Server.spacing + player.x + Server.spacing + player.y + Server.spacing + player.spriteName + Server.spacing + player.player_name + Server.spacing + player.walk_speed + Server.spacing + player.up_time;
         client.sendMessage(msg);
+    }
+    public static void send_tick_time_to_all(long time) throws IOException {
+        String msg = "sync_tick_time" + Server.spacing + time;
+        Tools.sendMessageToAll(msg);
     }
     public static void transfer_player_to_all(Client client) throws IOException {
         Player player = client.player;
-        String msg = "updatePlayer" + Server.spacing + player.id + Server.spacing + player.x + Server.spacing + player.y + Server.spacing + player.spriteName + Server.spacing + player.player_name;
+        String msg = "updatePlayer" + Server.spacing + player.id + Server.spacing + player.x + Server.spacing + player.y + Server.spacing + player.spriteName + Server.spacing + player.player_name + Server.spacing + player.walk_speed + Server.spacing + player.up_time;
         Tools.sendMessageToAll(msg);
     }
     public static void sendMessageToAll(String msg) throws IOException {

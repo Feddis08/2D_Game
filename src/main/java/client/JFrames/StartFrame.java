@@ -96,9 +96,9 @@ public class StartFrame extends Canvas{
                     StartClient.log("b1");
                     try {
                         String[] str = tfServerName.getText().split(":");
+                        StartClient.client.startConnection(str[0], Integer.parseInt(str[1]));
                         StartClient.loop_thread = new GameLoop();
                         StartClient.loop_thread.start();
-                        StartClient.client.startConnection(str[0], Integer.parseInt(str[1]));
                         StartClient.client.sendMessage("getServerInfo");
                     } catch (IOException ex) {
                         ex.printStackTrace();

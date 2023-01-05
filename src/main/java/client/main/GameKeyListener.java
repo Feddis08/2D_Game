@@ -54,6 +54,16 @@ public class GameKeyListener implements java.awt.event.KeyListener {
                 ex.printStackTrace();
             }
         }
+        if (e.getKeyCode() == 49){
+            try {
+                if (!(current_Key_Code == e.getKeyCode())){
+                    Tools.player_dig();
+                    current_Key_Code = e.getKeyCode();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override

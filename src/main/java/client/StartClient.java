@@ -20,6 +20,8 @@ public class StartClient {
     public static Client client2 = new Client();
     public static Label tfName;
     public static Label tfServerName;
+    public static int max_tick_time = 50;
+    public static long server_tick_start;
 
 
     public static void main(String[] args) throws IOException, InterruptedException {

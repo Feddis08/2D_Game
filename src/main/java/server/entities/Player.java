@@ -14,7 +14,8 @@ public class Player {
     public static String spriteName = "res/sprites/entities/player/player1.png";
     public static Integer x = 32;
     public static Integer y = 32;
-    public Integer walk_speed = 500;
+    public Integer walk_speed = 25;
+    public Integer dig_speed = 500;
     public Integer walk_cool_down = 0;
     public String move_direction = "null";
     public String player_name = "";
@@ -25,17 +26,25 @@ public class Player {
     public Thread block_transfer_thread = new Thread(String.valueOf(this.id)){
         public void run (){
             try {
-                Thread.sleep(000);
-                System.out.println("1");
                 Tools.transfer_viewport(Tools.get_client(Integer.parseInt(this.getName())));
                 this.stop();
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
         }
     };
+    public void dig(){
+
+    }
+    public Block get_facing_block(){
+        Block block = null;
+        if (Objects.equals(this.move_direction, "up"))
+            StartServer.world.get_block(this.x, this.y ++);
+        if (Objects.equals(this.move_direction, "up"))
+            StartServer.world.get_block(this.x, this.y ++);
+
+            return block;
+    }
     public ArrayList<Block> getViewport(World world){
         Integer x1 = x - 10;
         Integer y1 = y - 6;
@@ -77,9 +86,9 @@ public class Player {
         if (move){
             x = wantedX;
             y = wantedY;
-
+            Tools.transfer_player_to_all(Tools.get_client(id));
         }
-        this.async_update_player_viewport_location_and_sprite();
+        //this.async_update_player_viewport_location_and_sprite();
     }
     public void change_move_direction(String move_direction){
         this.move_direction = move_direction;

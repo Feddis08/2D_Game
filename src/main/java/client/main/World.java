@@ -11,6 +11,18 @@ public class World {
     public World(){
         //generateBlocks();
     }
+    public void remove_block(Integer x, Integer y){
+
+        int index = 0;
+        Block result = null;
+        while (index < blocks.size()){
+            Block block = blocks.get(index);
+            if (Objects.equals(block.x, x) && Objects.equals(block.y, y)){
+                blocks.remove(index);
+            }
+            index = index + 1;
+        }
+    }
 
     public Block get_block(Integer x, Integer y){
 
